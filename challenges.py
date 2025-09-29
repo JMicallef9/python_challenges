@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
 def summarize_logs(log_list):
     """
@@ -52,3 +52,22 @@ def find_missing(nums):
     
     return smallest_int
 
+
+# A rate limiter function that allows a user to access a resource at most X times per Y seconds.
+
+class RateLimiter:
+    def __init__(self, limit=3, window=10):
+        self.limit = limit
+        self.window = window
+        self.user_requests = defaultdict(deque)
+
+    def can_access(self, user_id, timestamp):
+        q = self.user_requests[user_id]
+        
+        while q and q[0] <= timestamp - self.window:
+            q.popleft()
+        
+        if len(q) < self.limit:
+            q.append(timestamp)
+            return True
+        return False
