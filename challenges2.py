@@ -16,59 +16,16 @@ def parse_config(config_list):
     return config_dict
 
 
-
-# def flatten(nested_list):
-#     if not any(isinstance(item, list) for item in nested_list):
-#         return nested_list
-#     while type(nested_list[-1]) == int:
-#         nested_list = [nested_list[-1]] + [nested_list[:-1]]
-#     return flatten(nested_list = nested_list + nested_list.pop(-1))
-
-# def flatten(xs):
-#     xs = [xs]
-#     while xs:
-#         x = xs.pop()
-#         if isinstance(x, list):
-#             xs += reversed(x)
-#         else:
-#             yield x
-
-# def flatten(nested_list):
-#     flatList = []
-#     for item in nested_list:
-#         if type(item) is list:
-#             for i in item:
-#                 flatList.append(i)
-#         else:
-#             flatList.append(item)
-#     return flatList
-
-
 def flatten(nested_list):
+    "Flattens a list of arbitrarily nested lists."
+
     new_list = []
     for item in nested_list:
-        if type(item) == list:
-            flatten(item)
+        if isinstance(item, list):
+            new_list.extend(flatten(item))
         else:
             new_list.append(item)
-    
     return new_list
-
-
-# def flatten(nested_list):
-#     new_list = []
-#     for item in nested_list:
-#         if isinstance(item, list):
-#             new_list.extend(flatten(item))
-#         else:
-#             new_list.append(item)
-#     return new_list
-
-
-# difference between append & extend???
-
-# print(flatten([1, [2, [3, 4], 5], 6]))  
-# returns [1, 2, 3, 4, 5, 6]
 
 
 
