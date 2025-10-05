@@ -53,6 +53,21 @@ def find_missing(nums):
     return smallest_int
 
 
+def shift_text(text, num):
+    """A function that shifts all alpha characters in a string by a given value."""
+    result = []
+
+    for ch in text:
+        if ch.isalpha():
+            base = ord('A') if ch.isupper() else ord('a')
+            shifted = (ord(ch) - base + num) % 26 + base
+            result.append(chr(shifted))
+        else:
+            result.append(ch)
+
+    return ''.join(result)
+
+
 # A rate limiter function that allows a user to access a resource at most X times per Y seconds.
 
 class RateLimiter:
@@ -71,3 +86,4 @@ class RateLimiter:
             q.append(timestamp)
             return True
         return False
+
