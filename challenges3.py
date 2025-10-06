@@ -1,3 +1,5 @@
+from collections import deque
+
 def parse_csv(data):
     "Splits a string of comma-separated values into rows and columns."
     parsed_data = []
@@ -20,18 +22,26 @@ def unique_anagrams(words):
 
 
 def max_in_window(nums, k):
-    num_list = []
-    min = 0
+    if not nums or k == 0:
+        return []
 
-    while k <= len(nums):
-        num_list.append(max(nums[min:k]))
-        min += 1
-        k += 1
+    result = []
+    dq = deque()
 
-    return num_list
+    for i, num in enumerate(nums):
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
 
-# print(max_in_window([1,3,-1,-3,5,3,6,7], 3))
-# returns [3,3,5,5,6,7]
+        while dq and nums[dq[-1]] < num:
+            dq.pop()
+
+        dq.append(i)
+
+        if i >= k - 1:
+            result.append(nums[dq[0]])
+
+    return result
+
 
 
 # Design a simple URL shortener function shorten_url(url: str) -> str.
@@ -73,15 +83,3 @@ test_url = UrlShortener()
 print(test_url.shorten_url("https://example.com"))
 print(test_url.shorten_url("https://new.com"))
 print(test_url.shorten_url("https://example.com"))
-
-
-
-# When you see these design/system thinking challenges, try this structure in your head (or even narrate it in an interview):
-# Identify state → “What do I need to keep track of between function calls?”
-# (e.g., mappings, counters, caches, queues).
-# Decide data structures → “What’s the simplest structure to hold this state?”
-# (dict for lookups, deque for windows, set for uniqueness, etc.).
-# Define operations → “What does each request need to do to the state?”
-# (insert, remove old data, check limits).
-# Think about edge cases → Duplicates, empty input, very large input.
-# If time → Think about scalability/distribution (“how would this work with millions of users?”).
