@@ -34,28 +34,16 @@ log_list = ["[2025-09-24 10:23:11] GET /api/users 200",
             "[2025-09-24 10:23:14] GET /api/users 200"]
 
 def count_status_codes(logs):
+    """
+    Count how many times each HTTP status code appears in logs.
+    Example line: "[2025-09-24 10:23:11] GET /api/users 200"
+    """
     log_dict = defaultdict(int)
 
     for log in logs:
         log_dict[int(log.split(" ")[-1])] += 1
     
     return dict(log_dict)
-
-
-# Regex version:
-
-# import re
-# from collections import defaultdict
-
-# def count_status_codes(logs):
-#     log_dict = defaultdict(int)
-#     pattern = re.compile(r"\s(\d{3})$")  # matches the 3-digit status at end
-#     for log in logs:
-#         match = pattern.search(log)
-#         if match:
-#             log_dict[int(match.group(1))] += 1
-#     return dict(log_dict)
-
 
 
 jobs = [
@@ -67,7 +55,11 @@ jobs = [
 ]
 
 def max_non_overlapping(jobs):
-    jobs.sort(key=lambda x: x[1])  # sort by end time
+    """
+    Return the maximum number of non-overlapping jobs that can be scheduled.
+    Each job is (start, end).
+    """
+    jobs.sort(key=lambda x: x[1])
     count = 0
     last_end = float('-inf')
     for start, end in jobs:
