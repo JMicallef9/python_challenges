@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 def parse_config(config_list):
     """
@@ -53,6 +53,18 @@ jobs = [
     (3, 6),
     (5, 7)
 ]
+
+
+def count_letters(string):
+    """
+    Counts how many times each letter appear in a string.
+    Returns a string showing each letter and its count.
+    Returned string is sorted by frequency, and alphabetically when counts are equal.
+    """
+    counts = Counter(string)
+    sorted_items = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
+    return ','.join(f"{char}:{count}" for char, count in sorted_items)
+
 
 def max_non_overlapping(jobs):
     """
