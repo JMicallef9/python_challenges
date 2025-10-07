@@ -26,7 +26,7 @@ def is_balanced(string):
     stack = []
     pairs = {')': '(', ']': '[', '}': '{'}
 
-    for char in s:
+    for char in string:
         if char in "([{":
             stack.append(char)
         elif char in ")]}":
@@ -35,6 +35,7 @@ def is_balanced(string):
             stack.pop()
 
     return not stack
+
 
 
 def execution_order(tasks):
