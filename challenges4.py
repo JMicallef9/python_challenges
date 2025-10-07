@@ -2,31 +2,24 @@ import heapq
 
 def merge_sorted(num_lists):
     "Merges lists of numbers into a single, fully sorted list."
+
+    for lst in num_lists:
+        lst.sort()
+
     merged = []
     heap = []
-    for i, lst in enumerate(num_lists):
+    for index, lst in enumerate(num_lists):
         if lst:
-            heapq.heappush(heap, (lst[0], i, 0))
-            print(heap)
+            heapq.heappush(heap, (lst[0], index, 0))
 
     while heap:
-        val, li, ei = heapq.heappop(heap)
-        merged.append(val)
-        if ei + 1 < len(num_lists[li]):
-            heapq.heappush(heap, (num_lists[li][ei+1], li, ei+1))
+        value, list_index, element_index = heapq.heappop(heap)
+        merged.append(value)
+        if element_index + 1 < len(num_lists[list_index]):
+            heapq.heappush(heap, (num_lists[list_index][element_index+1], list_index, element_index+1))
 
     return merged
 
-
-lists = [
-    [1, 4, 7],
-    [2, 5, 8],
-    [3, 6, 9]
-]
-print(merge_sorted(lists))
-
-# # Output:
-# [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 def is_balanced(string):
     "Checks that a string contains matching brackets, returns True or False."
