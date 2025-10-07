@@ -1,4 +1,5 @@
 import heapq
+from collections import deque, defaultdict
 
 def merge_sorted(num_lists):
     "Merges lists of numbers into a single, fully sorted list."
@@ -37,19 +38,29 @@ def is_balanced(string):
     return not stack
 
 
-
 def execution_order(tasks):
     "Returns valid execution order for a list of tasks with dependencies."
-    pass
+    indegree = defaultdict(int)
+    graph = defaultdict(list)
 
+    for task, deps in tasks.items():
+        indegree[task]
+        for dep in deps:
+            graph[dep].append(task)
+            indegree[task] += 1
+            indegree[dep]
 
-# tasks = {
-#     "compile": ["generate_code"],
-#     "generate_code": ["fetch_schemas"],
-#     "fetch_schemas": [],
-#     "test": ["compile"]
-# }
+    queue = deque([t for t in tasks if indegree[t] == 0])
+    order = []
 
-# execution_order(tasks)
-# # Output (one valid order):
-# ["fetch_schemas", "generate_code", "compile", "test"]
+    while queue:
+        curr = queue.popleft()
+        order.append(curr)
+        for neighbour in graph[curr]:
+            indegree[neighbour] -= 1
+            if indegree[neighbour] == 0:
+                queue.append(neighbour)
+
+    if len(order) != len(tasks):
+        raise ValueError("Cyclic dependency detected")
+    return order
